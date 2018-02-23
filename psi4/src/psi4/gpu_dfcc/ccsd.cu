@@ -1,3 +1,4 @@
+
 /*
  *@BEGIN LICENSE
  *
@@ -31,9 +32,8 @@
 #include<psi4/libmints/mintshelper.h>
 #include<psi4/libciomr/libciomr.h>
 #include<psi4/libqt/qt.h>
-//#include<psi4/libparallel/process.h>
+#include<psi4/libpsi4util/process.h>
 #include<omp.h>
-
 
 #ifdef HAVE_MKL
     #include<mkl.h>
@@ -60,6 +60,7 @@ __global__ void GPUKernel_VpVm_tiled(int a, int bstart, int bsize,int v,double *
     int v2 = v*v;
 
     if ( id >= v2*bsize ) return;
+
 
     // id : b*v2+c*v+d
 

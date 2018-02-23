@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 3.3 FATAL_ERROR)  # 3.3: EP_add(DEPENDS interface
                                                  # 3.2: continue()
                                                  # 3.1: CMAKE_CXX_STANDARD, BUILD_ALWAYS
 project(psi4
-        LANGUAGES C CXX)
+        LANGUAGES C CXX CUDA)
 set(psi4_URL "http://www.psicode.org/")
 set(psi4_EMAIL "psi4aiqc+cmake@gmail.com")
 set(psi4_LICENSE "GNU Lesser General Public License, version 3 (LGPL-3.0)")
 set(psi4_DESCRIPTION "Open-Source Quantum Chemistry")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-
+find_package(CUDA)
 ################  Options: Overview and Not Otherwise Mentioned  ###############
 
 #  <<<  CMake build overview  >>>

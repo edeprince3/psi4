@@ -44,10 +44,8 @@ endmacro(option_with_default)
 # Syntax psi4_add_module(<lib or bin> <library name> <CMake list of sources> <dependencies>)
 #
 macro(psi4_add_module binlib libname sources)
-
     set(current_sources ${${sources}};)
     list(SORT current_sources)
-
     add_library(${libname} STATIC ${current_sources})
     set_target_properties(${libname} PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_FPIC})
 
@@ -69,6 +67,35 @@ macro(psi4_add_module binlib libname sources)
     endforeach()
     target_link_libraries(${libname} PRIVATE pybind11::module)
     target_link_libraries(${libname} PRIVATE tgt::lapack)
+endmacro()
+
+macro(psi4_add_cuda_module binlib libname sources)
+    find_package(CUDA)
+    set(current_sources ${${sources}};)
+    list(SORT current_sources)
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}) # "-lcublas -lcudar -lcusolver")
+set(CUDA_NVCC_FLAGS "-std=c++11 -v -Xcompiler -fPIC -Xcompiler -static-libstdc++ -Xcompiler -static-libgcc") # ${CUDA_LIBRARIES} -lcublas -lcudart -lcusolver")
+    cuda_add_library(${libname} STATIC ${current_sources})
+    set_target_properties(${libname} PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_FPIC})
+    CUDA_ADD_CUBLAS_TO_TARGET(${libname})
+    # library modules get their headers installed
+    if((${binlib} MATCHES lib) OR (${binlib} MATCHES binlib))
+        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/psi4
+                FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "*.i")
+    endif()
+
+    # binary modules explicitly compiled into psi4.so
+    if((${binlib} MATCHES bin) OR (${binlib} MATCHES binlib))
+        set_property(GLOBAL APPEND PROPERTY BINLIST ${libname})
+    endif()
+
+    set(depend_name "${ARGN}")
+    foreach(name_i IN LISTS depend_name)
+        target_link_libraries(${libname} ${name_i})
+    endforeach()
+    target_link_libraries(${libname} pybind11::module)
+    target_link_libraries(${libname} tgt::lapack)
 endmacro()
 
 include(CheckCCompilerFlag)

@@ -30,8 +30,7 @@
 #include "frozen_natural_orbitals.h"
 #include "ccsd.h"
 
-
-INIT_PLUGIN
+//INIT_PLUGIN
 
 using namespace std;
 namespace psi{ namespace fnocc {
@@ -117,8 +116,8 @@ SharedWavefunction gpu_dfcc(SharedWavefunction ref_wfn, Options &options) {
     }
     std::shared_ptr<GPUDFCoupledCluster> ccsd (new GPUDFCoupledCluster(wfn,options));
     ccsd->compute_energy();
-    //return wfn;
-    return (SharedWavefunction)ccsd;
+    return wfn;
+    //return (SharedWavefunction)ccsd;
 }
 
 }} // End namespaces

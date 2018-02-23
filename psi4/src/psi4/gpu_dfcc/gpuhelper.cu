@@ -35,7 +35,7 @@ bool interleaved_dgemm = true;
 #include<psi4/libmints/vector.h>
 #include<psi4/libiwl/iwl.h>
 #include<psi4/libpsio/psio.hpp>
-#include<psi4/libparallel/process.h>
+#include<psi4/libpsi4util/process.h>
 #include"blas.h"
 
 #include"gpuhelper.h"
@@ -99,7 +99,6 @@ void GPUHelper::CudaInitGPU(Options&options){
      //fflush(outfile);
 
      //gpumemory = cudaProp.totalGlobalMem;
-     
      
      cudaMemGetInfo(&free,&total);
      gpumemory = free; 

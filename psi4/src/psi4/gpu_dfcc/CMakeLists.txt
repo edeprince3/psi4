@@ -1,35 +1,35 @@
-cmake_policy(SET CMP0048 NEW)  # project_VERSION* variables populated from project(... VERSION x.x.x) string
-project(gpu_dfcc 
-        VERSION 0.1
-        LANGUAGES CXX CUDA)
-set(gpudfcc_AUTHORS      "A. Eugene DePrince III")
-set(gpudfcc_DESCRIPTION  "GPU DF-CC")
+#cmake_policy(SET CMP0048 NEW)  # project_VERSION* variables populated from project(... VERSION x.x.x) string
+#project(gpu_dfcc 
+#        VERSION 0.1
+#        LANGUAGES CXX CUDA)
+#set(gpudfcc_AUTHORS      "A. Eugene DePrince III")
+#set(gpudfcc_DESCRIPTION  "GPU DF-CC")
 #set(gpudfcc_URL          "github.com/edeprince3/gpu_dfcc")
-set(gpudfcc_LICENSE      "GPL 2+")
+#set(gpudfcc_LICENSE      "GPL 2+")
+#set(CMAKE_VERBOSE_MAKEFILE ON)
+#find_package(CUDA)
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
-
+#enable_language(CUDA)
 # <<<  Options  >>>
 
-set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -Xcompiler --compiler-options '-fPIC' -O2 ${CUDA_LIBRARIES} -lcublas -lcudart -lcusolver")
+#set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -dlink -Xcompiler --compiler-options '-fPIC' -O2 -std=c++11 ${CUDA_LIBRARIES} -lcublas -lcudart -lcusolver")
 #set(CXX_FLAGS ${CUDA_LIBRARIES} "-lcublas -lcudar -lcusolver")
-include(psi4OptionsTools)
+#include(psi4OptionsTools)
+#set(CXX_FLAGS "${CUDA_LIBRARIES} -lcublas -lcudart -lcusolver")
 #set(CMAKE_CXX_STANDARD_LIBRARIES ${CUDA_LIBRARIES} "-lcublas -lcudart -lcusolver")
-option_with_print(ENABLE_OPENMP "Enable threadsafe linking to OpenMP parallelized programs." ON)
-option_with_print(ENABLE_GENERIC "Enable mostly static linking in shared library" OFF)
-if (APPLE AND (CMAKE_CXX_COMPILER_ID MATCHES GNU))
-    option_with_flags(ENABLE_XHOST "Enable processor-specific optimization" OFF)
-else ()
-    option_with_flags(ENABLE_XHOST "Enable processor-specific optimization" ON
-                      "-xHost" "-march=native")
-endif()
+#option_with_print(ENABLE_OPENMP "Enable threadsafe linking to OpenMP parallelized programs." ON)
+#option_with_print(ENABLE_GENERIC "Enable mostly static linking in shared library" OFF)
+#if (APPLE AND (CMAKE_CXX_COMPILER_ID MATCHES GNU))
+#    option_with_flags(ENABLE_XHOST "Enable processor-specific optimization" OFF)
+#else ()
+#    option_with_flags(ENABLE_XHOST "Enable processor-specific optimization" ON
+#                      "-xHost" "-march=native")
+#endif()
 #find_package(CUDA)
-include(GNUInstallDirs)
-include(CMakePackageConfigHelpers)
+#include(GNUInstallDirs)
+#include(CMakePackageConfigHelpers)
 
-set(PN ${PROJECT_NAME})
+#set(PN ${PROJECT_NAME})
 #
 # PYMOD_INSTALL_LIBDIR If set, installs python modules to
 #                      ${CMAKE_INSTALL_LIBDIR}${PYMOD_INSTALL_LIBDIR}/v2rdm_casscf rather than
@@ -68,35 +68,37 @@ set(PN ${PROJECT_NAME})
 #file(GLOB sources "*.cc" "*.F90" "*.cu")
 #cuda_add_library(gpu_dfcc 
 #        ${SOURCES})
-set (CMAKE_CXX_FLAGS "--std=c++11")
-set (CUDA_PROPAGATE_HOST_FLAGS ON)
-set(sources ccsd.cu gpu_dfcc.cu gpuhelper_driver.cc triples.cu)
-set(libname gpu_dfcc)
-message("${libname}")
-    set(current_sources ${${sources}};)
-    add_library(${libname} STATIC ccsd.cu gpu_dfcc.cu gpuhelper_driver.cc triples.cu)
-    set_target_properties(${libname} PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_FPIC})
-
-    # library modules get their headers installed
-    if(${binlib} MATCHES lib)
-        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/psi4
-                FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "*.i")
-    endif()
-
-    # binary modules explicitly compiled into psi4.so
-    if(${binlib} MATCHES bin)
-        set_property(GLOBAL APPEND PROPERTY BINLIST ${libname})
-    endif()
-
-    set(depend_name "${ARGN}")
-    foreach(name_i IN LISTS depend_name)
-        target_link_libraries(${libname} ${name_i})
-    endforeach()
-    target_link_libraries(${libname} PRIVATE pybind11::module)
-    target_link_libraries(${libname} PUBLIC tgt::lapack)
-    target_link_libraries(${libname} PRIVATE core)
-#add_psi4_plugin(gpu_dfcc
+###############################################
+#set (CMAKE_CXX_FLAGS "--std=c++11")
+#set (CUDA_PROPAGATE_HOST_FLAGS ON)
+set(sources_list ccsd.cu gpuhelper.cu gpu_dfcc.cu gpuhelper_driver.cc triples.cu)
+#set(libname gpu_dfcc)
+#message("${libname}")
+#    set(current_sources ${${sources}};)
+#    add_library(${libname} STATIC ccsd.cu gpu_dfcc.cu gpuhelper_driver.cc triples.cu)
+#    set_target_properties(${libname} PROPERTIES POSITION_INDEPENDENT_CODE ${BUILD_FPIC})
+#
+#    # library modules get their headers installed
+#    if(${binlib} MATCHES lib)
+#        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#                DESTINATION ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/psi4
+#                FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "*.i")
+#    endif()
+#    message("${BINLIST} hello from cmake")
+#    # binary modules explicitly compiled into psi4.so
+#    if(${binlib} MATCHES bin)
+#        set_property(GLOBAL APPEND PROPERTY BINLIST ${libname})
+#    endif()
+#
+#    set(depend_name "${ARGN}")
+#    foreach(name_i IN LISTS depend_name)
+#        target_link_libraries(${libname} ${name_i})
+#    endforeach()
+#    target_link_libraries(${libname} PRIVATE pybind11::module)
+#    target_link_libraries(${libname} PUBLIC tgt::lapack)
+#    target_link_libraries(${libname} PRIVATE core)
+##############################
+psi4_add_cuda_module(bin gpu_dfcc sources_list mints)
 #)
 
 #target_link_libraries(gpu_dfcc PRIVATE ${LIBC_INTERJECT})

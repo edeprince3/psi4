@@ -41,6 +41,7 @@ GPUHelper::~GPUHelper()
 /**
   *  initialize cuda (if we have it)
   */
+
 void GPUHelper::CudaInit(Options&options){
   max_mapped_memory=0;
   num_gpus=gpumemory=extraroom=0;
