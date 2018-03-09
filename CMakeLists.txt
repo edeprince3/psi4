@@ -88,7 +88,7 @@ option(ENABLE_simint "Enables use of SIMINT two-electron integral library" OFF)
 option(ENABLE_gdma "Enables Stone's GDMA multipole code (requires Fortran)" OFF)
 option(ENABLE_PCMSolver "Enables PCMSolver library (requires Fortran)" OFF)
 option(ENABLE_snsmp2 "Enables SNSMP2 plugin (can also be added at runtime)" OFF)
-option(ENABLE_cuda "Enables gpu accelerated fnocc" ON)
+option(ENABLE_gpu_dfcc "Enables gpu accelerated fnocc" ON)
 option(ENABLE_v2rdm_casscf "Enables V2RDM_CASSCF plugin (can also be added at runtime)" OFF)
 # These options are relevant to pasture
 option(ENABLE_ccsort "Enables ccsort plugin installed from psi4pasture" OFF)
@@ -98,12 +98,6 @@ option(ENABLE_transqt2 "Enables transqt2 plugin installed from psi4pasture" OFF)
 if(ENABLE_ccsort OR ENABLE_transqt2)
   set(ENABLE_pasture ON)
   message(STATUS "Enabling pasture plugins")
-endif()
-
-if(ENABLE_cuda)
-  message(STATUS "Enabling gpu accelerated fnocc")
-  enable_language(CUDA)
-  set(cuda_ENABLED ON)
 endif()
 
 if(ENABLE_gdma OR ENABLE_dkh OR ENABLE_erd OR ENABLE_PCMSolver)
@@ -224,7 +218,7 @@ ExternalProject_Add(psi4-core
               -DENABLE_erd=${ENABLE_erd}
               -DENABLE_simint=${ENABLE_simint}
               -DENABLE_gdma=${ENABLE_gdma}
-              -DENABLE_cuda=${ENABLE_cuda}
+              -DENABLE_gpu_dfcc=${ENABLE_gpu_dfcc}
               -DENABLE_PCMSolver=${ENABLE_PCMSolver}
               -DTargetLAPACK_DIR=${TargetLAPACK_DIR}
               -DTargetHDF5_DIR=${TargetHDF5_DIR}
