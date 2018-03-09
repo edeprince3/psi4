@@ -123,9 +123,6 @@ SharedWavefunction libfock(SharedWavefunction, Options&);
 namespace fnocc {
 SharedWavefunction fnocc(SharedWavefunction, Options&);
 }
-namespace fnocc {
-SharedWavefunction gpu_dfcc(SharedWavefunction, Options&);
-}
 namespace occwave {
 SharedWavefunction occwave(SharedWavefunction, Options&);
 }
@@ -402,11 +399,6 @@ double py_psi_cctriples(SharedWavefunction ref_wfn) {
 SharedWavefunction py_psi_fnocc(SharedWavefunction ref_wfn) {
     py_psi_prepare_options_for_module("FNOCC");
     return fnocc::fnocc(ref_wfn, Process::environment.options);
-}
-
-SharedWavefunction py_psi_gpu_dfcc(SharedWavefunction ref_wfn){
-    py_psi_prepare_options_for_module("GPU_DFCC");
-    return fnocc::gpu_dfcc(ref_wfn, Process::environment.options);
 }
 
 SharedWavefunction py_psi_detci(SharedWavefunction ref_wfn) {
@@ -1332,7 +1324,6 @@ PYBIND11_PLUGIN(core) {
     core.def("dmrg", py_psi_dmrg, "Runs the DMRG code.");
     core.def("run_gdma", py_psi_gdma, "Runs the GDMA code.");
     core.def("fnocc", py_psi_fnocc, "Runs the fno-ccsd(t)/qcisd(t)/mp4/cepa energy code");
-    core.def("gpu_dfcc", py_psi_gpu_dfcc, "Runs gpu accelerated fnocc");
     core.def("cchbar", py_psi_cchbar, "Runs the code to generate the similarity transformed Hamiltonian.");
     core.def("cclambda", py_psi_cclambda, "Runs the coupled cluster lambda equations code.");
     core.def("ccdensity", py_psi_ccdensity, "Runs the code to compute coupled cluster density matrices.");
