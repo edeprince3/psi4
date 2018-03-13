@@ -167,7 +167,8 @@ def run_sapt_dft(name, **kwargs):
             sapt_jk,
             True,
             maxiter=core.get_option("SAPT", "MAXITER"),
-            conv=core.get_option("SAPT", "D_CONVERGENCE"))
+            conv=core.get_option("SAPT", "D_CONVERGENCE"),
+            Sinf=core.get_option("SAPT", "DO_IND_EXCH_SINF"))
         hf_data.update(ind)
 
         dhf_value = hf_data["HF DIMER"] - hf_data["HF MONOMER A"] - hf_data["HF MONOMER B"]
@@ -230,6 +231,9 @@ def run_sapt_dft(name, **kwargs):
 
     # Build cache and JK
     sapt_jk = wfn_B.jk()
+    sapt_jk.set_do_J(True)
+    sapt_jk.set_do_K(True)
+    sapt_jk.set_do_wK(False)
 
     cache = sapt_jk_terms.build_sapt_jk_cache(wfn_A, wfn_B, sapt_jk, True)
 
@@ -247,7 +251,8 @@ def run_sapt_dft(name, **kwargs):
         sapt_jk,
         True,
         maxiter=core.get_option("SAPT", "MAXITER"),
-        conv=core.get_option("SAPT", "D_CONVERGENCE"))
+        conv=core.get_option("SAPT", "D_CONVERGENCE"),
+        Sinf=core.get_option("SAPT", "DO_IND_EXCH_SINF"))
     data.update(ind)
 
     # Dispersion
