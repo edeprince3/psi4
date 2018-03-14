@@ -47,8 +47,3 @@ try:
     import snsmp2
 except ImportError:
     pass
-
-try:
-    import gpu_dfcc
-except ImportError:
-    pass
