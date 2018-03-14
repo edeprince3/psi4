@@ -119,6 +119,7 @@ _addons_ = {
     "gcp": _psi4_which("gcp"),
     "v2rdm_casscf": _plugin_import("v2rdm_casscf"),
     "forte": _plugin_import("forte"),
+    "gpu_dfcc": _plugin_import("gpu_dfcc"),
     "snsmp2": _plugin_import("snsmp2"),
 }
 
