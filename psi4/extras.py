@@ -120,6 +120,7 @@ _addons_ = {
     "v2rdm_casscf": _plugin_import("v2rdm_casscf"),
     "gpu_dfcc": _plugin_import("gpu_dfcc"),
     "forte": _plugin_import("forte"),
+    "gpu_dfcc": _plugin_import("gpu_dfcc"),
     "snsmp2": _plugin_import("snsmp2"),
 }
 

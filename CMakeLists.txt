@@ -90,6 +90,7 @@ option(ENABLE_PCMSolver "Enables PCMSolver library (requires Fortran)" OFF)
 option(ENABLE_snsmp2 "Enables SNSMP2 plugin (can also be added at runtime)" OFF)
 option(ENABLE_gpu_dfcc "Enables gpu accelerated fnocc" ON)
 option(ENABLE_v2rdm_casscf "Enables V2RDM_CASSCF plugin (can also be added at runtime)" OFF)
+option(ENABLE_gpu_dfcc "Enabled gpu_dfcc plugin (requires cuda)" OFF)
 # These options are relevant to pasture
 option(ENABLE_ccsort "Enables ccsort plugin installed from psi4pasture" OFF)
 option(ENABLE_transqt2 "Enables transqt2 plugin installed from psi4pasture" OFF)
@@ -218,7 +219,7 @@ ExternalProject_Add(psi4-core
               -DENABLE_erd=${ENABLE_erd}
               -DENABLE_simint=${ENABLE_simint}
               -DENABLE_gdma=${ENABLE_gdma}
-              -DENABLE_gpu_dfcc=${ENABLE_gpu_dfcc}
+	      -DENABLE_gpu_dfcc=${ENABLE_gpu_dfcc}
               -DENABLE_PCMSolver=${ENABLE_PCMSolver}
               -DTargetLAPACK_DIR=${TargetLAPACK_DIR}
               -DTargetHDF5_DIR=${TargetHDF5_DIR}

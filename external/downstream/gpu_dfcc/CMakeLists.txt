@@ -1,10 +1,9 @@
 if(${ENABLE_gpu_dfcc})
     find_package(gpu_dfcc 0.5 CONFIG QUIET)
-
-    if(${v2rdm_casscf_FOUND})
+    if(${gpu_dfcc_FOUND})
         get_property(_loc TARGET gpu_dfcc::gpu_dfcc PROPERTY LOCATION)
-        message(STATUS "${Cyan}Found gpu_dfcc${ColourReset}: ${_loc} (found version ${v2rdm_casscf_VERSION})")
-        add_library(v2rdm_casscf_external INTERFACE)  # dummy
+        message(STATUS "${Cyan}Found gpu_dfcc${ColourReset}: ${_loc} (found version ${gpu_dfcc_VERSION})")
+        add_library(gpu_dfcc_external INTERFACE)  # dummy
 
     else()
         if(${CMAKE_INSIST_FIND_PACKAGE_gpu_dfcc})
